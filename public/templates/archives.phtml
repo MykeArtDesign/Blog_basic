@@ -1,0 +1,62 @@
+
+
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta property="og:locale" content="fr_FR">
+	<meta property="og:type" content="blog">
+	<meta property="og:site_name" content="template blog">
+	<meta property="og:title" content="Blog Template - Archives">
+	<meta property="og:url" content="https://mickaelsorhaindo.fr/">
+	<script async="" src="//www.google-analytics.com/analytics.js"></script>
+	<meta name="viewport" content="initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Blog Template - Archives</title>
+		<meta name="description" content="Cette page contient tous les articles que les utilisateurs peuvent voir. " />
+
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+</head>
+<body>
+	<!-- HEADER -->
+	<?php 
+		require_once '../public/includes/header.php'; 
+ 		require_once '../public/includes/title.php';
+	?>
+	
+	<main>
+		<?php if ( !empty($_SESSION) && $_SESSION['connected'] ) {
+			connectTitle('Archives');
+		} else {
+			addTitle('Archives');
+		} 
+		?>
+		
+		<!-- ARTICLES -->
+		<section class="displayArt">
+			<div class="preview container slideArt">
+			<?php foreach( $articles as $article ): ?>
+				<article class="art">
+					<img src="../public/img/articles/<?= $article['image'] ?>" alt="image liée à l'article">
+					<h2><?= $article["title"] ?></h2>
+					<p><?= mb_substr( $article["content"], 0, 100, 'UTF-8' ) ?>... 
+						<a href="article.php?articleId=<?= $article["id"] ?>">Lire la suite</a>
+					</p>
+					<?php include '../public/includes/timestamp.php'; ?>
+					<p class="size">Posté il y a <span class="orange"><?= $nbJours; ?></span> jours</p>
+				</article>
+			<?php endforeach; ?>
+			</div>
+		</section>
+	</main>
+	
+	<!-- FOOTER -->
+	<?php require_once '../public/includes/footer.php'; ?>
+
+	<script src="../public/libs/jquery-3.2.1.min.js"></script>
+	<script src="../public/js/main.js"></script>
+</body>
+</html>

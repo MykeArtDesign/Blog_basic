@@ -1,0 +1,83 @@
+
+
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta property="og:locale" content="fr_FR">
+	<meta property="og:type" content="contact">
+	<meta property="og:site_name" content="template blog">
+	<meta property="og:title" content="Blog Template - Contact">
+	<meta property="og:url" content="https://mickaelsorhaindo.fr/">
+	<script async="" src="//www.google-analytics.com/analytics.js"></script>
+	<meta name="viewport" content="initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Blog Template - Contact</title>
+		<meta name="description" content="Pour toutes informations, vous pouvez nous envoyez un message via notre page contact." />
+	
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+</head>
+<body>
+	<!-- HEADER -->
+	<?php 
+		require_once '../public/includes/header.php'; 
+		require_once '../public/includes/title.php';
+	?>
+	<main>
+		<?php if ( !empty($_SESSION) && $_SESSION['connected'] ) {
+				connectTitle('Contact');
+			} else {
+				addTitle('Contact');
+			} 
+			?>
+		<section>
+
+				<div class="container">
+
+					<!-- FORM -->
+					<div class="formulaire">
+						<form action="" method="POST">
+
+							<div class="form-group flex column center">
+								<label for="username">Username</label>
+								<input type="text" name="username" required="required" <?php if ( !empty($_SESSION) && $_SESSION['connected'] ):?>
+									value="<?= $_SESSION['username'] ?>"
+								<?php endif; ?> class="form-control">
+							</div>
+
+							<div class="form-group flex column center">
+								<label for="mail">Mail</label>
+								<input type="email" name="mail" required="required" <?php if ( !empty($_SESSION) && $_SESSION['connected'] ):?>
+									value="<?= $_SESSION['mail'] ?>"
+								<?php endif; ?> class="form-control">
+							</div>
+
+							<div class="form-group flex column center">
+								<?php if( isset($_POST) && !empty($_POST['mail']) && !filter_var($_POST['mail']) ){
+									echo "<script>alert(\"Veuillez entrer une adresse valide!\")</script>";
+								} ?>
+
+								<label for="message">Message</label>
+								<textarea name="message" id="message" cols="30" rows="10"class="form-control"></textarea>
+							</div>
+							
+							
+							<div class="form-group flex column center">
+								<input type="submit" value="ENVOYER"class="form-control validate">
+							</div>
+						</form>
+					</div>
+				</div>
+			</section>
+		</main>
+		
+	<!-- FOOTER -->
+	<?php require_once '../public/includes/footer.php'; ?>
+
+	<script src="../public/libs/jquery-3.2.1.min.js"></script>
+	<script src="../public/js/main.js"></script>
+</body>
+</html>

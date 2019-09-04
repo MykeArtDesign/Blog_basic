@@ -1,0 +1,126 @@
+ 
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta property="og:locale" content="fr_FR">
+	<meta property="og:type" content="article">
+	<meta property="og:site_name" content="template blog">
+	<meta property="og:title" content="Blog Template - Article">
+	<meta property="og:url" content="https://mickaelsorhaindo.fr/">
+	<script async="" src="//www.google-analytics.com/analytics.js"></script>
+	<meta name="viewport" content="initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Blog Template - Article</title>
+		<meta name="description" content="Cette page permet l'affichage d'un article." />
+
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+</head>
+<body>
+	<?php 
+		require_once '../public/includes/header.php'; 
+ 		require_once '../public/includes/title.php';
+
+	 if ( !empty($_SESSION) && $_SESSION['connected'] ) {
+			connectTitle('Inscription');
+		} else {
+			addTitle('Inscription');
+		} 
+		
+
+	if(!empty($_SESSION) && $_SESSION['connected']) {
+	$_SESSION["currentArticle"] = $articleId;
+	} ?>
+	<main>
+		<section class="container">
+			<div class="article">
+					<img src="../public/img/articles/<?= $article['image'] ?>" alt="image liée à l'article">
+					<h2><?= $article["title"] ?></h2>
+					<p class="paraArt"><?= $article["content"] ?>
+					</p>
+					<span>Posté le: <em><?= $article["publishDate"] ?></em></span>
+			</div>
+		</section>
+	<hr>
+	
+	<section class="container">
+		<div class="comment">
+		<?php  foreach( $comments as $comment): ?>
+			<div>
+				<?php if(!empty($comment['avatar'])):;
+				
+				?> 
+					<div style=" 
+						background-image: url( ../public/membres/avatars/<?= $comment['avatar'] ?> );
+						background-size: cover; 
+						background-position: center;
+						border: 3px solid #535353;
+						width: 60px;
+						height: 60px;
+						border-radius: 50%;
+						margin-right: 16px;	
+						float: left;				
+						">
+					</div>
+					<?php else: ?>
+						<div  style=" 
+						background-image: url( ../public/membres/avatars/blank_profile.png );
+						background-size: cover; 
+						background-position: center;
+						border: 3px solid #535353;
+						width: 60px;
+						height: 60px;
+						border-radius: 50%;
+						margin-right: 16px;	
+						float: left;				
+						">
+					</div>
+				<?php endif; ?> 
+				<h3
+						<?php if($comment['sexe']==='homme'): ?>
+								class="blue"
+						<?php elseif($comment['sexe']==='femme'): ?>
+								class="amethyst"
+						<?php else: ?>
+								class="smoothgrey"
+					<?php endif; ?> ><?= $comment["nickname"] ?></h3>
+				<p><?= $comment["publishDate"] . ' - ' . $comment["content"] ?></p>
+			</div>
+		<?php endforeach; ?>
+		</div>
+	</section>
+	<hr>
+	<section class="container">
+		<div class="formulaire">
+	<form action="comment.php?articleId=<?= $article['article_id'] ?>" method="POST">
+		<h2>Add a comment</h2>
+			<div class="form-group flex column center">
+				<label for="nickname">Nickname : </label>
+				<input type="text" class="form-control" name="nickname" <?php if ( !empty($_SESSION) && $_SESSION['connected'] ):?>
+									value="<?= $_SESSION['username'] ?>"
+								<?php endif; ?> >
+			</div>
+			
+			<div class="form-group flex column center">
+			<label for="content">Comment : </label>
+			<textarea name="content" cols="30" rows="10" class="form-control"></textarea>
+			</div>
+		<div class="form-group flex column center">
+			<input type="submit" class="form-control validate" value="ENVOYER">
+		</div>
+	</form>
+	</div>
+	</section>
+			
+		</section>
+	</main>
+
+	<?php require_once '../public/includes/footer.php'; ?>
+
+	<script src="../public/libs/jquery-3.2.1.min.js"></script>
+	<script src="../public/js/main.js"></script>
+</body>
+</html>

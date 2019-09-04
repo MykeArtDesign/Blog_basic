@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta property="og:locale" content="fr_FR">
+	<meta property="og:type" content="blog">
+	<meta property="og:site_name" content="template blog">
+	<meta property="og:title" content="Blog Template - Mon Profil">
+	<meta property="og:url" content="https://mickaelsorhaindo.fr/">
+	<script async="" src="//www.google-analytics.com/analytics.js"></script>
+	<meta name="viewport" content="initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Blog Template - Mon Profil</title>
+	<meta name="description" content="Gestion des profils depuis l'administration." />
+
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+</head>
+<body>
+	<!-- HEADER -->
+	<?php 
+		require_once '../public/includes/header.php';
+		require_once '../public/includes/title.php';
+	?>
+
+	<?php if( !empty($_SESSION) && $_SESSION['connected'] && $_SESSION['statut'] === 'admin'): ?>
+	
+	<main>
+		<?php 
+			echo profilTitle($userProfil['username']);
+		?>
+	<section class="container">
+		<div>
+			<h1 class="nom_profil orange"><?= $userProfil['username'] ?></h1>
+			<hr class="hr">
+		</div>
+	</section>
+	<section class="container">
+		
+		<!-- FORM AVATAR -->
+		<div class="formulaire">
+			<form action="profil_update.php?userID=<?= $userProfil['id'] ?>" method="POST" enctype="multipart/form-data" class="profil_avatar">
+				<div class="form-group flex column center">
+				<div class="avatar_empty" <?php if(!empty($userProfil['avatar'])): ?> style=" background-image: url( ../public/membres/avatars/<?= $userProfil['avatar'] ?> ); background-size: cover;" <?php endif; ?> >
+				</div>
+					<label for="avatar_profil">Modifier mon avatar</label>
+					<input type="file" name="avatar_profil" class="form-control">
+				</div>
+				<div class="form-group flex column center">
+					<input type="submit" value="VALIDER" class="form-control validate">
+				</div>
+			</form>
+			<?php if(isset($msg)) { echo $msg; } ?>
+		</div>
+	</section>
+	<section class="container">
+		<!-- FORM USER -->
+		<div class="formulaire">
+					<form action="profil_update.php?userID=<?= $userProfil['id'] ?>" method="POST">
+						
+						<div class="form-group flex column center">
+							<label for="username">Change Username</label>
+							<input type="text" name="username_profil" value="<?= $userProfil['username']; ?>" class="form-control">
+						</div>
+
+						
+						<div class="form-group flex column center">
+							<label for="mail">Modify address mail</label>
+							<input type="email" name="mail_profil" value="<?= $userProfil['mail'] ?>" class="form-control">
+							<?php if( isset($_POST) && !empty($_POST['mail']) && !filter_var($_POST['mail']) ){
+								echo "<script>alert(\"Veuillez entrer une adresse valide!\")</script>";
+							} ?>
+						</div>
+						
+						<div class="form-group flex column center">
+							<label for="password">Change password</label>
+							<input type="password" name="password_profil"  class="form-control">
+						</div>
+						
+						<div class="form-group flex column center">
+							<label for="password_verif">Confirm new password</label>
+							<input type="password" name="password_verif_profil" class="form-control">
+							<?php if( isset($_POST) && !empty($_POST['password'])&& !empty($_POST['password_verif']) && $_POST['password'] !== $_POST['password_verif'] ){
+								echo "<script>alert(\"Veuillez retaper le même mot de passe!\")</script>";
+							} ?>
+						</div>
+						
+
+						<div class="form-group flex column center">
+							<select name="sexe_profil" id="sexe" class="form-control">
+								<option value="homme">Homme</option>
+								<option value="femme">Femme</option>
+							</select>
+						</div>
+						
+
+						<div class="form-group flex column center">
+							<label for="statut">Statut de l'utilisateur</label>
+							<select name="statut" id="statut" class="form-control">
+								<?php foreach ($statut as $stat):?>
+								<option value="<?= $stat['statut'] ?>"><?= $stat['statut'] ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+						
+						<div class="form-group flex column center">
+							<input type="submit" value="ENREGISTRER" class="form-control validate">
+						</div>
+					</form>
+				</div>
+	</section>
+
+	</main>
+
+	<?php else: ?>
+	
+	<main>
+		<section class="displayArt">
+			<div class="container">
+				<h1 class="orange"> Vous n'avez pas les autorisations pour visiter cette page!! </h1>
+			</div>
+		</section>
+	</main>	
+<?php endif; ?>
+
+	<?php require_once '../public/includes/footer.php'; ?>
+
+	<script src="../public/libs/jquery-3.2.1.min.js"></script>
+	<script src="../public/js/main.js"></script>
+</body>
+</html>

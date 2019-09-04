@@ -1,0 +1,124 @@
+<!-- 
+<pre>
+<?php var_dump($_SERVER) ?>
+</pre>
+ -->
+
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta property="og:locale" content="fr_FR">
+	<meta property="og:type" content="edit">
+	<meta property="og:site_name" content="template blog">
+	<meta property="og:title" content="Blog Template - Modify Publication">
+	<meta property="og:url" content="https://mickaelsorhaindo.fr/">
+	<script async="" src="//www.google-analytics.com/analytics.js"></script>
+	<meta name="viewport" content="initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Blog Template - Modify Publication</title>
+		<meta name="description" content="Page de modification d'articles . " />
+
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+</head>
+<body>
+
+	<?php 
+		require_once '../public/includes/header.php'; 
+		require_once '../public/includes/title.php';
+		?>
+	
+	<?php if( !empty($_SESSION) && $_SESSION['connected'] && $_SESSION['statut'] === 'admin'): ?>
+	<main>
+		<?php if ( !empty($_SESSION) && $_SESSION['connected'] ) {
+			connectTitle('Edition');
+		} else {
+			addTitle('Edition');
+		} 
+		?>
+		<section>
+
+			<div class="container">
+
+				<div class="formulaire">
+					<form action="update.php?articleId=<?= $article["id"] ?>" method="POST" enctype="multipart/form-data">
+							
+							<div class="form-group flex column center">
+								<label for="title">Title :</label>
+								<input type="text" name="title" value="<?= $article["title"] ?>" class="form-control">
+							</div>
+
+							<div class="form-group flex column center">
+								<label for="picture">Image :</label>
+								<input type="file" name="picture" value="<?= $article['image'] ?>" class="form-control">
+							</div>
+
+							<div class="form-group flex column center">
+								<label for="content">Contenu :</label>
+								<textarea name="content" rows="10" class="form-control"><?= $article["content"] ?></textarea>
+							</div>
+							
+							<div class="form-group flex column center">
+								<label for="">Category :</label>
+								<select name="category" class="form-control">
+									<?php foreach( $categories as $category ): ?>
+										<option value="<?= $category["id"] ?>" 
+											<?php if( $category["id"] == $article["category_id"] ): ?>
+								selected
+								<?php endif; ?>
+								><?= $category["name"] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+							
+							<div class="form-group flex column center">
+								<label for="author">Author :</label>
+								<select name="author" class="form-control">
+									<?php foreach( $authors as $author ): ?>
+										<option value="<?= $author["id"] ?>"
+											<?php if( $author["id"] == $article["author_id"] ): ?>
+												selected
+											<?php endif; ?>
+											><?= $author["firstname"] ?> <?= $author["lastname"] ?></option>
+									<?php endforeach; ?>
+								</select>
+							</div>
+							
+							<div class="center form-group flex row center">
+								<input type="checkbox" name="visibility"
+								<?php if( $article["Visibility"] == 1 ): ?>
+									checked
+								<?php endif; ?> class="form-control"
+								> 
+								<label for="visibility">Article visible ?</label>
+							</div>
+
+						<div class="form-group flex column center">
+							<input type="submit" value="PUBLIER" class="form-control validate">
+						</div>
+					</form>
+				</div>
+			</div>
+		</section>
+	</main>
+	
+	<?php else: ?>
+	
+	<main>
+		<section class="slide">
+			<div class="container">
+				<h1 class="orange"> Vous n'avez pas les autorisations pour visiter cette page!! </h1>
+			</div>
+		</section>
+	</main>	
+<?php endif; ?>
+
+	<?php require_once '../public/includes/footer.php'; ?>
+
+	<script src="../public/libs/jquery-3.2.1.min.js"></script>
+	<script src="../public/js/main.js"></script>
+</body>
+</html>

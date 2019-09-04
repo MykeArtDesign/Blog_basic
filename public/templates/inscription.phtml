@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta property="og:locale" content="fr_FR">
+	<meta property="og:type" content="blog">
+	<meta property="og:site_name" content="template blog">
+	<meta property="og:title" content="Blog Template - Inscription">
+	<meta property="og:url" content="https://mickaelsorhaindo.fr/">
+	<script async="" src="//www.google-analytics.com/analytics.js"></script>
+	<meta name="viewport" content="initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Blog Template - Inscription</title>
+	<meta name="description" content="Inscrivez-vous pour accéder à un profil personnalisé et diverses avantages." />
+	<!-- FONTAWESOME -->
+
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+</head>
+<body>
+	<!-- HEADER -->
+	<?php 
+		require_once '../public/includes/header.php'; 
+		require_once '../public/includes/title.php'; 
+	?>
+	
+	<main>
+		<?php if ( !empty($_SESSION) && $_SESSION['connected'] ) {
+			connectTitle('Inscription');
+		} else {
+			addTitle('Inscription');
+		} 
+		?>
+		<section>
+			
+			<!-- FORM -->
+			<div class="container">
+
+				<div class="formulaire">
+					<form action="form.php" method="POST">
+						
+						<div class="form-group flex column center">
+							<label for="username">Username</label>
+							<input type="text" name="username" required="required" class="form-control">
+						</div>
+						
+						<div class="form-group flex column center">
+							<label for="mail">Mail</label>
+							<input type="email" name="mail" required="required" class="form-control">
+							<?php if( isset($_POST) && !empty($_POST['mail']) && !filter_var($_POST['mail']) ){
+								echo "<script>alert(\"Veuillez entrer une adresse valide!\")</script>";
+							} ?>
+						</div>
+
+						<div class="form-group flex column center">
+							<label for="password">Password</label>
+							<input type="password" name="password" required="required" class="form-control">
+						</div>
+
+						<div class="form-group flex column center">
+							<label for="password_verif">Confirm password</label>
+							<input type="password" name="password_verif" required="required" class="form-control">
+							<?php if( isset($_POST) && !empty($_POST['password'])&& !empty($_POST['password_verif']) && $_POST['password'] !== $_POST['password_verif'] ){
+								echo "<script>alert(\"Veuillez retaper le même mot de passe!\")</script>";
+							} ?>
+						</div>
+						
+						<div class="form-group flex column center">
+							<label for="sexe">Sexe</label>
+							<select name="sexe" id="sexe" class="form-control">
+								<option value="homme">Homme</option>
+								<option value="femme">Femme</option>
+							</select>
+						</div>
+						
+						<div class="flex row center form-group">
+							<input type="checkbox" name="accept" required="required" class="form-control">
+							<label for="accept"> J'accepte les conditions Générales liées à l'utilisation de mes données</label>
+						</div>
+						<div class="form-group flex column center">
+							<input type="submit" value="S'INSCRIRE" class="form-control validate">
+						</div>
+					</form>
+				</div>
+			</div>
+		</section>
+	</main>
+	
+	<!-- FOOTER -->
+	<?php require_once '../public/includes/footer.php'; ?>
+
+	<script src="../public/libs/jquery-3.2.1.min.js"></script>
+	<script src="../public/js/main.js"></script>
+</body>
+</html>

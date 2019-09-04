@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta property="og:locale" content="fr_FR">
+	<meta property="og:type" content="accueil">
+	<meta property="og:site_name" content="template blog">
+	<meta property="og:title" content="Blog Template - Accueil">
+	<meta property="og:url" content="https://mickaelsorhaindo.fr/">
+	<script async="" src="//www.google-analytics.com/analytics.js"></script>
+	<meta name="viewport" content="initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Blog Template - Accueil</title>
+	<meta name="description" content="Ce Blog est un template destiné à montrer mes différentes capacités sur des langages tels que PHP, Javascript, MySQL, CSS3, HTML5." />
+
+	<!-- FONTAWESOME -->
+
+	<!-- STYLE CSS -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css">
+</head>
+<body>
+	<!-- HEADER -->
+	<?php require_once '../public/includes/header.php'; ?>
+	<main>
+		<!-- BACKGROUND -->
+		<section class="container">
+			<div class="landscape">
+				<div class="landscape-intro center">
+					<h3>Photography & Travels</h3>
+            		<h1>Amazing Places on earth</h1>
+	            	<?php if ( !empty($_SESSION) && $_SESSION['connected'] ): ?>
+	            		<h3>Hello <span class="orange"> <?= $_SESSION['username'] ?></span></h3>
+	            	<?php else :?>
+	            		<h3>Welcome in <span class="orange"> My World</span></h3>
+	            	<?php endif; ?>
+
+				</div>
+			</div>
+		</section>
+		
+		<!-- Affichage des articles -->
+		<section class="displayArt">
+			<div class="preview container slideArt">
+				<?php foreach( $articles as $article ): ?>
+					<article class="art">
+						<img src="../public/img/articles/<?= $article["image"] ?>" alt="image liée à l'article">
+						<h2><?= $article["title"] ?></h2>
+						<p><?= mb_substr( $article["content"],0 , 100, 'UTF-8' ) ?>... 
+							<a href="article.php?articleId=<?= $article["id"] ?>">Lire la suite</a>
+						</p>
+						<?php include '../public/includes/timestamp.php'; ?>
+						<p class="size">Posté il y a <span class="orange"><?= $nbJours; ?></span> jours</p>
+					</article>
+				<?php endforeach; ?>
+			</div>
+		</section>
+	</main>
+	
+	<!-- FOOTER -->
+	<?php require_once '../public/includes/footer.php'; ?>
+	
+	<script src="../public/libs/jquery-3.2.1.min.js"></script>
+	<script src="../public/js/main.js"></script>
+</body>
+</html>
